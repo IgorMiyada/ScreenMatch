@@ -1,0 +1,12 @@
+
+/out
+/.idea/*
+/br/com/alura/screenmatch/main/MainComBusca.java
+/br/com/alura/screenmatch/calculate/CalculadoraDeTempo.java
+/br/com/alura/screenmatch/calculate/RecommendationFilter.java
+usersData.json
+titleList.json
+
+
+!.idea/libraries
+!.idea/modules.xml
