@@ -65,6 +65,7 @@ public final class FileOperations {
                 if(user.getUserName().equals(userName) && user.getPassword().equals(password)){
                     System.out.println("User logged in");
                     user.setUserlogged(true);
+                    Session.login(user);
                     FileWriter fileWriter = new FileWriter(USERS_DATA.toFile());
                     gson.toJson(users,fileWriter);
                     fileWriter.close();
