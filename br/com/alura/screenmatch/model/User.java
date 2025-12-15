@@ -21,12 +21,6 @@ public class User {
         }
         checkPassword(password);
         this.password = password;
-
-    }
-
-    public void loginUser(String userName, String password){
-
-        isUserlogged = true;
     }
 
     public static void checkPassword(String password){
@@ -79,5 +73,8 @@ public class User {
 
     public boolean isUserlogged() {
         return isUserlogged;
+    }
+    public void setUserlogged(boolean userlogged) {
+        isUserlogged = userlogged;
     }
 }

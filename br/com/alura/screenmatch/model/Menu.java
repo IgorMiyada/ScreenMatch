@@ -40,8 +40,10 @@ public class Menu {
                     break;
                 case 2:
                     System.out.println("Enter the user name : ");
-                    String login = sc.nextLine();
-
+                    String loginUserName = sc.nextLine();
+                    System.out.println("Enter the userPassword : ");
+                    String loginPassword = sc.nextLine();
+                    FileOperations.loginUser(loginUserName,loginPassword);
                     break;
                 case 3:
                     System.out.println("Enter the wished movie: ");

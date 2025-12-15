@@ -1,6 +1,7 @@
 package br.com.alura.screenmatch.model;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -52,8 +53,28 @@ public final class FileOperations {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_DATA.toFile()))){
             bw.write(gson.toJson(jsonArray));
         }
+    }
 
+    public static boolean loginUser(String userName, String password)throws IOException{
+        TypeToken<List<User>> userListType = new TypeToken<List<User>>() {};
 
+        try(BufferedReader bf = new BufferedReader(new FileReader(USERS_DATA.toFile()))){
+            List<User> users = gson.fromJson(bf,userListType);
+
+            for(User user : users){
+                if(user.getUserName().equals(userName) && user.getPassword().equals(password)){
+                    System.out.println("User logged in");
+                    user.setUserlogged(true);
+                    FileWriter fileWriter = new FileWriter(USERS_DATA.toFile());
+                    gson.toJson(users,fileWriter);
+                    fileWriter.close();
+                    return true;
+                }
+            }
+        }catch (FileNotFoundException e){
+            System.err.printf("There are no users created. " + e.getMessage());
+        }
+        return false;
     }
 
     public void searchUser(String userName){
