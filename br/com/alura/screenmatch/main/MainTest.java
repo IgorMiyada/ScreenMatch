@@ -9,9 +9,12 @@ public class MainTest {
         Scanner sc = new Scanner(System.in);
         Menu menu = new Menu();
 
-        System.out.println(menu);
-        System.out.println("Enter the option number : ");
-        int number = sc.nextInt();
-        menu.opcoesMenu(number);
+        int number = 0;
+        while (number!=6){
+            System.out.println(menu);
+            System.out.println("Enter the option number : ");
+            number = sc.nextInt();
+            menu.opcoesMenu(number);
+        }
     }
 }
