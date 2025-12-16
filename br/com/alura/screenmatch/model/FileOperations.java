@@ -11,7 +11,7 @@ import java.util.List;
 
 public final class FileOperations {
 
-    private static final String FOLDER_PATH = "C:\\Users\\igorm\\Documents\\ScreenMatchUsers\\";
+    private static final String FOLDER_PATH = "C:\\___\\___\\___\\ScreenMatchUsers\\";
 
     private static final Path USERS_DATA = Paths.get("usersData.json");
 
@@ -21,18 +21,33 @@ public final class FileOperations {
             .create();
 
 
-    public static void generateFile(String fileName, int fileType, List<Title> titleList) throws IOException {
-        String fileExtension =  fileType == 1 ? ".txt" : ".json";
-        fileName = fileName+fileExtension;
+    public static boolean generateFile(String fileName, String userName){
+        fileName = fileName+".json";
+        Path filePath = Paths.get(FOLDER_PATH,userName,fileName);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))){
-            bw.write(gson.toJson(titleList));
+        try{
+            if(Files.exists(filePath)){
+                return false;
+            }
+            Files.createFile(filePath);
+        }catch (IOException e){
+            System.out.println("Error trying creating the file." + e.getMessage());
+            return false;
         }
+        return true;
+
     }
 
-    public static void createUserFolder(String userName) throws IOException{
-        Path path = Paths.get(FOLDER_PATH+userName);
-        Files.createDirectories(path);
+    public static void createUserFolder(String userName){
+        try{
+            Path path = Paths.get(FOLDER_PATH+userName);
+            if(Files.exists(path)){
+                return;
+            }
+            Files.createDirectories(path);
+        }catch (IOException e){
+            System.err.println("Error trying to create folder. " + e.getMessage());
+        }
     }
 
     public static void saveUserData(User user)throws IOException{
@@ -76,11 +91,6 @@ public final class FileOperations {
             System.err.printf("There are no users created. " + e.getMessage());
         }
         return false;
-    }
-
-    public void searchUser(String userName){
-        Path path = Paths.get(FOLDER_PATH+userName);
-
     }
 
 

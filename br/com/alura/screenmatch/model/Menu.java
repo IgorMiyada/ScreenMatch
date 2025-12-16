@@ -51,7 +51,14 @@ public class Menu {
                     SearchOmdbApi.searchTitle(titleName);
                     break;
                 case 4:
-
+                    try{
+                        if(Session.isUserLogged()){
+                            System.out.println("Insert the playlist name : ");
+                            PlaylistOperations.createPlaylist(Session.getUserLogged(),"teste");
+                        }
+                    }catch (NullPointerException e){
+                        System.out.println("There is no user logged.");
+                    }
                     break;
                 case 5:
                     System.out.printf("Add a movie to playlist");
