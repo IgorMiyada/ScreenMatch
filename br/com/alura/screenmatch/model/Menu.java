@@ -18,7 +18,8 @@ public class Menu {
                 3.Search for a movie
                 4.Register a movie list
                 5.Add a movie to a playlist
-                6.End application""";
+                6. Read file
+                7.End application""";
     }
 
     public void opcoesMenu(int opcaoMenu){
@@ -52,15 +53,12 @@ public class Menu {
                     SearchOmdbApi.searchTitle(titleName);
                     break;
                 case 4:
-                    try{
-                        if(Session.isUserLogged()){
-                            System.out.println("Insert the playlist name : ");
-                            String playlistToBeCreated = sc.nextLine();
-                            PlaylistOperations.createPlaylist(Session.getUserLogged(),playlistToBeCreated);
-                        }
-                    }catch (NullPointerException e){
-                        System.out.println("There is no user logged.");
+                    if(Session.isUserLogged()){
+                        System.out.println("Insert the playlist name : ");
+                        String playlistToBeCreated = sc.nextLine();
+                        PlaylistOperations.createPlaylist(Session.getUserLogged(),playlistToBeCreated);
                     }
+
                     break;
                 case 5:
                     if(Session.isUserLogged()){
@@ -70,9 +68,8 @@ public class Menu {
                         String movieName = sc.nextLine();
                         PlaylistOperations.addMovieToPlaylist(playlistName,movieName,Session.getUserLogged());
                     }
-
                     break;
-                case 6:
+                case 7:
                     System.out.println("End application");break;
                 default :
                     System.out.println("Invalida option! Enter other number ");

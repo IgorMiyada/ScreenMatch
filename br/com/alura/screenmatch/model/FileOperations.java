@@ -63,7 +63,7 @@ public final class FileOperations {
         }
     }
 
-    public static boolean loginUser(String userName, String password)throws IOException{
+    public static void loginUser(String userName, String password)throws IOException{
         TypeToken<List<User>> userListType = new TypeToken<List<User>>() {};
 
         try(BufferedReader bf = new BufferedReader(new FileReader(SystemVariables.getUsersData().toFile()))){
@@ -77,13 +77,11 @@ public final class FileOperations {
                     FileWriter fileWriter = new FileWriter(SystemVariables.getUsersData().toFile());
                     gson.toJson(users,fileWriter);
                     fileWriter.close();
-                    return true;
                 }
             }
         }catch (FileNotFoundException e){
             System.err.printf("There are no users created. " + e.getMessage());
         }
-        return false;
     }
 
 
