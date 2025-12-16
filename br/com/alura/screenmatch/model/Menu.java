@@ -17,7 +17,7 @@ public class Menu {
                 2.Login
                 3.Search for a movie
                 4.Register a movie list
-                5.Register a movie
+                5.Add a movie to a playlist
                 6.End application""";
     }
 
@@ -55,14 +55,22 @@ public class Menu {
                     try{
                         if(Session.isUserLogged()){
                             System.out.println("Insert the playlist name : ");
-                            PlaylistOperations.createPlaylist(Session.getUserLogged(),"teste");
+                            String playlistToBeCreated = sc.nextLine();
+                            PlaylistOperations.createPlaylist(Session.getUserLogged(),playlistToBeCreated);
                         }
                     }catch (NullPointerException e){
                         System.out.println("There is no user logged.");
                     }
                     break;
                 case 5:
-                    System.out.printf("Add a movie to playlist");
+                    if(Session.isUserLogged()){
+                        System.out.println("Enter the playlist name : ");
+                        String playlistName = sc.nextLine();
+                        System.out.println("Enter the movie name : ");
+                        String movieName = sc.nextLine();
+                        PlaylistOperations.addMovieToPlaylist(playlistName,movieName,Session.getUserLogged());
+                    }
+
                     break;
                 case 6:
                     System.out.println("End application");break;

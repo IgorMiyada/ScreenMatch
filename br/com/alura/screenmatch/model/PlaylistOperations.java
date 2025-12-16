@@ -24,5 +24,38 @@ public class PlaylistOperations {
 
     }
 
+    public static void addMovieToPlaylist(String playlistName, String movieName, User user) throws FileNotFoundException, IOException {
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .setPrettyPrinting()
+                .create();
+
+        String json = SearchOmdbApi.searchTitle(movieName);
+        OmdbTitle omdbTitle = gson.fromJson(json, OmdbTitle.class);
+
+        Path fileName = Paths.get(SystemVariables.getFolderPath(),user.getUserName(),playlistName+".json");
+
+        if(!Files.exists(fileName)){
+            throw new FileNotFoundException("There is no file created");
+        }
+
+        JsonArray jsonArray;
+
+        try(BufferedReader bf = new BufferedReader(new FileReader(fileName.toFile()))){
+            jsonArray = JsonParser.parseReader(bf).getAsJsonArray();
+        }catch (IllegalStateException e){
+            jsonArray = new JsonArray();
+        }
+
+        JsonObject jsonObject = gson.toJsonTree(omdbTitle).getAsJsonObject();
+        jsonArray.add(jsonObject);
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName.toFile()))){
+            bw.write(gson.toJson(jsonArray));
+        }
+
+
+    }
+
 
 }
