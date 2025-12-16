@@ -21,19 +21,14 @@ public final class FileOperations {
             .create();
 
 
-    public static boolean generateFile(String fileName, String userName){
+    public static boolean generateFile(String fileName, String userName) throws IOException{
         fileName = fileName+".json";
         Path filePath = Paths.get(FOLDER_PATH,userName,fileName);
 
-        try{
-            if(Files.exists(filePath)){
-                return false;
-            }
-            Files.createFile(filePath);
-        }catch (IOException e){
-            System.out.println("Error trying creating the file." + e.getMessage());
+        if(Files.exists(filePath)){
             return false;
         }
+        Files.createFile(filePath);
         return true;
 
     }

@@ -14,21 +14,28 @@ public final class SearchOmdbApi {
 
     private static final String apiKey = "d4c31266";
 
-    public static String searchTitle(String titleName) throws IOException, InterruptedException {
+    public static String searchTitle(String titleName) {
         String url = "http://www.omdbapi.com/?t="
                 + URLEncoder.encode(titleName, StandardCharsets.UTF_8)
                 +"&apikey=" + SearchOmdbApi.apiKey;
 
         HttpClient client = HttpClient.newHttpClient();
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();
-        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+        try{
 
-        if(response.body().toLowerCase().contains("error")){
-            throw new MovieNotFoundException("Movie not found");
+            HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+            if(response.body().toLowerCase().contains("error")){
+                throw new MovieNotFoundException("Movie not found");
+            }
+
+            return response.body();
+
+        }catch (InterruptedException | IOException e){
+            throw new RuntimeException("Error trying consulting OMDB API." + e.getMessage());
         }
-
-        return response.body();
     }
 }

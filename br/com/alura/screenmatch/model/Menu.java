@@ -69,11 +69,7 @@ public class Menu {
                     System.out.println("Invalida option! Enter other number ");
                     break;
             }
-        }catch(PasswordException e){
-            System.err.println(e.getMessage());
-        } catch (IOException error){
-            System.err.println(error.getMessage());
-        } catch (InterruptedException e) {
+        }catch(PasswordException | IOException e){
             System.err.println(e.getMessage());
         }
 
