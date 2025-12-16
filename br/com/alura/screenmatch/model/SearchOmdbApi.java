@@ -12,12 +12,12 @@ import java.nio.charset.StandardCharsets;
 
 public final class SearchOmdbApi {
 
-    private static final String apiKey = "d4c31266";
+
 
     public static String searchTitle(String titleName) {
         String url = "http://www.omdbapi.com/?t="
                 + URLEncoder.encode(titleName, StandardCharsets.UTF_8)
-                +"&apikey=" + SearchOmdbApi.apiKey;
+                +"&apikey=" + SystemVariables.getApiKey();
 
         HttpClient client = HttpClient.newHttpClient();
 
@@ -28,7 +28,7 @@ public final class SearchOmdbApi {
 
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
 
-            if(response.body().toLowerCase().contains("error")){
+            if(response.body().contains("Movie not found")){
                 throw new MovieNotFoundException("Movie not found");
             }
 
