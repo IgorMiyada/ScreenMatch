@@ -15,7 +15,7 @@ public class Session {
         return userLogged;
     }
 
-    public static boolean isUserLogged() {
+    public static boolean isUserLogged() throws NullPointerException{
         return userLogged.isUserlogged();
     }
 }
