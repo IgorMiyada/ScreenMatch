@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.model;
 
+import br.com.alura.screenmatch.excession.MovieNotFoundException;
 import br.com.alura.screenmatch.excession.PasswordException;
 
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class Menu {
                     System.out.println("Invalida option! Enter other number ");
                     break;
             }
-        }catch(PasswordException | IOException e){
+        }catch(PasswordException | IOException | MovieNotFoundException e){
             System.err.println(e.getMessage());
         }
 

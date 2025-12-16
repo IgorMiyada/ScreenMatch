@@ -11,9 +11,7 @@ import java.util.List;
 
 public final class FileOperations {
 
-    private static final String FOLDER_PATH = "C:\\___\\___\\___\\ScreenMatchUsers\\";
 
-    private static final Path USERS_DATA = Paths.get("usersData.json");
 
     private static  Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
@@ -23,7 +21,7 @@ public final class FileOperations {
 
     public static boolean generateFile(String fileName, String userName) throws IOException{
         fileName = fileName+".json";
-        Path filePath = Paths.get(FOLDER_PATH,userName,fileName);
+        Path filePath = Paths.get(SystemVariables.getFolderPath(),userName,fileName);
 
         if(Files.exists(filePath)){
             return false;
@@ -35,7 +33,7 @@ public final class FileOperations {
 
     public static void createUserFolder(String userName){
         try{
-            Path path = Paths.get(FOLDER_PATH+userName);
+            Path path = Paths.get(SystemVariables.getFolderPath()+userName);
             if(Files.exists(path)){
                 return;
             }
@@ -48,10 +46,10 @@ public final class FileOperations {
     public static void saveUserData(User user)throws IOException{
         JsonArray jsonArray;
 
-        try(BufferedReader bf = new BufferedReader(new FileReader(USERS_DATA.toFile()))){
+        try(BufferedReader bf = new BufferedReader(new FileReader(SystemVariables.getUsersData().toFile()))){
             jsonArray = JsonParser.parseReader(bf).getAsJsonArray();
         }catch (FileNotFoundException e){
-            Files.createFile(USERS_DATA);
+            Files.createFile(SystemVariables.getUsersData());
             jsonArray = new JsonArray();
         }catch (IllegalStateException e){
             jsonArray = new JsonArray();
@@ -60,7 +58,7 @@ public final class FileOperations {
         JsonObject jsonObject = gson.toJsonTree(user).getAsJsonObject();
         jsonArray.add(jsonObject);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_DATA.toFile()))){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(SystemVariables.getUsersData().toFile()))){
             bw.write(gson.toJson(jsonArray));
         }
     }
@@ -68,7 +66,7 @@ public final class FileOperations {
     public static boolean loginUser(String userName, String password)throws IOException{
         TypeToken<List<User>> userListType = new TypeToken<List<User>>() {};
 
-        try(BufferedReader bf = new BufferedReader(new FileReader(USERS_DATA.toFile()))){
+        try(BufferedReader bf = new BufferedReader(new FileReader(SystemVariables.getUsersData().toFile()))){
             List<User> users = gson.fromJson(bf,userListType);
 
             for(User user : users){
@@ -76,7 +74,7 @@ public final class FileOperations {
                     System.out.println("User logged in");
                     user.setUserlogged(true);
                     Session.login(user);
-                    FileWriter fileWriter = new FileWriter(USERS_DATA.toFile());
+                    FileWriter fileWriter = new FileWriter(SystemVariables.getUsersData().toFile());
                     gson.toJson(users,fileWriter);
                     fileWriter.close();
                     return true;
