@@ -4,6 +4,7 @@ import br.com.alura.screenmatch.excession.MovieNotFoundException;
 import br.com.alura.screenmatch.excession.PasswordException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -82,7 +83,13 @@ public class Menu {
                     }
                     break;
                 case 7:
-
+                    if(Session.isUserLogged()){
+                        System.out.println("Enter the playlist you want to see : ");
+                        List<String> fileLines =  FileOperations.readFile(sc.nextLine(),Session.getUserLogged());
+                        for(String textLine : fileLines){
+                            System.out.println(textLine);
+                        }
+                    }
                     break;
                 case 8:
                     System.out.println("End application");break;

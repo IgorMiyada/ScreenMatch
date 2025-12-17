@@ -4,7 +4,7 @@ import br.com.alura.screenmatch.model.Menu;
 
 import java.util.Scanner;
 
-public class MainTest {
+public class MainApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Menu menu = new Menu();
@@ -14,7 +14,13 @@ public class MainTest {
             System.out.println(menu);
             System.out.println("Enter the option number : ");
             number = sc.nextInt();
-            menu.opcoesMenu(number);
+            try{
+                menu.opcoesMenu(number);
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
+                System.err.println(e.getMessage());
+            }
+
         }
     }
 }

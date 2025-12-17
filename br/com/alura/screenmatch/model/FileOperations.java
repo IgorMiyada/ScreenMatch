@@ -4,9 +4,11 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class FileOperations {
@@ -87,6 +89,17 @@ public final class FileOperations {
             throw new FileNotFoundException("There are no users created. ");
         }
     }
+
+    public static List<String> readFile(String playlistName,User user)throws IOException{
+        Path path = Paths.get(SystemVariables.FOLDER_PATH,user.getUserName(),playlistName+".json");
+        if(!Files.exists(path)){
+            throw new FileNotFoundException("Could not find the playlist");
+        }
+
+        return Files.readAllLines(path);
+
+    }
+
 
 
 }
