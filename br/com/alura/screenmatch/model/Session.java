@@ -12,6 +12,11 @@ public class Session {
     }
 
     public static boolean isUserLogged(){
-        return userLogged.isUserlogged();
+        if(userLogged!=null){
+            return userLogged.isUserlogged();
+        }else{
+            System.out.println("No user is logged");
+            return false;
+        }
     }
 }
