@@ -31,7 +31,6 @@ public class PlaylistOperations {
         }
 
         Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 .setPrettyPrinting()
                 .create();
 
