@@ -2,8 +2,13 @@ package br.com.alura.screenmatch.model;
 
 import br.com.alura.screenmatch.excession.MovieNotFoundException;
 import br.com.alura.screenmatch.excession.PasswordException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -61,9 +66,15 @@ public class Menu {
                     SystemVariables.setFolderPath(folderPath);
                     break;
                 case 4:
+                    Gson gson = new GsonBuilder()
+                            .setPrettyPrinting()
+                            .create();
+
                     System.out.println("Enter the wished movie: ");
                     String titleName = sc.nextLine();
-                    SearchOmdbApi.searchTitle(titleName);
+                    String show = SearchOmdbApi.searchTitle(titleName);
+                    JsonElement jsonElement = JsonParser.parseString(show);
+                    System.out.println(gson.toJson(jsonElement));
                     break;
                 case 5:
                     if(Session.isUserLogged()){
@@ -95,11 +106,9 @@ public class Menu {
                 case 8:
                     System.out.println("End application");break;
                 default :
-                    System.out.println("Invalida option! Enter other number ");
+                    System.out.println("Invalid option! Enter other number ");
                     break;
             }
-        }catch (InputMismatchException e){
-            System.err.println("Please, enter a number");
         } catch(PasswordException | IOException | MovieNotFoundException e){
             System.err.println(e.getMessage());
         }
