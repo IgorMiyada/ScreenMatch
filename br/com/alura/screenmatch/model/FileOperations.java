@@ -4,18 +4,16 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class FileOperations {
 
 
 
-    private static  Gson gson = new GsonBuilder()
+    private static  Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
             .setPrettyPrinting()
             .create();
@@ -59,11 +57,11 @@ public final class FileOperations {
             jsonArray = new JsonArray();
         }
 
-        JsonObject jsonObject = gson.toJsonTree(user).getAsJsonObject();
+        JsonObject jsonObject = GSON.toJsonTree(user).getAsJsonObject();
         jsonArray.add(jsonObject);
 
         BufferedWriter bw = new BufferedWriter(new FileWriter(SystemVariables.getUsersData().toFile()));
-        bw.write(gson.toJson(jsonArray));
+        bw.write(GSON.toJson(jsonArray));
         bw.close();
 
     }
@@ -72,14 +70,14 @@ public final class FileOperations {
         TypeToken<List<User>> userListType = new TypeToken<List<User>>() {};
 
         try(BufferedReader bf = new BufferedReader(new FileReader(SystemVariables.getUsersData().toFile()))){
-            List<User> users = gson.fromJson(bf,userListType);
+            List<User> users = GSON.fromJson(bf,userListType);
 
             for(User user : users){
                 if(user.getUserName().equals(userName) && user.getPassword().equals(password)){
                     user.setUserlogged(true);
                     Session.login(user);
                     FileWriter fileWriter = new FileWriter(SystemVariables.getUsersData().toFile());
-                    gson.toJson(users,fileWriter);
+                    GSON.toJson(users,fileWriter);
                     fileWriter.close();
                     return true;
                 }
