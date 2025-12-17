@@ -23,7 +23,7 @@ public class PlaylistOperations {
 
     }
 
-    public static void addMovieToPlaylist(String playlistName, String movieName, User user) throws FileNotFoundException, IOException {
+    public static void addMovieToPlaylist(String playlistName, String movieName, User user) throws IOException {
         Path fileName = Paths.get(SystemVariables.getFolderPath(),user.getUserName(),playlistName+".json");
 
         if(!Files.exists(fileName)){

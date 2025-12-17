@@ -10,7 +10,6 @@ public class User {
     private String userName;
     private String password;
     private String email;
-    private List<TitleList> titleLists;
     private boolean isUserlogged;
 
     public User(String userName, String email, String password, String confirmPassword) {
@@ -41,16 +40,8 @@ public class User {
         }
     }
 
-    public void addShowList(String listName){
-        titleLists.add(new TitleList(listName));
-    }
-
     public String getUserName() {
         return userName;
-    }
-
-    public void changeUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getPassword() {
@@ -65,10 +56,6 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean isUserlogged() {

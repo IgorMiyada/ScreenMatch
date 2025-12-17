@@ -35,7 +35,7 @@ public final class FileOperations {
 
     }
 
-    public static void createUserFolder(String userName){
+    public static void createUserFolder(String userName)throws IOException{
         try{
             Path path = Paths.get(SystemVariables.getFolderPath()+userName);
             if(Files.exists(path)){

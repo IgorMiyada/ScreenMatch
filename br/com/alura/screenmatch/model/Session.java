@@ -7,10 +7,6 @@ public class Session {
         Session.userLogged = user;
     }
 
-    public static void logout(){
-        userLogged.setUserlogged(false);
-    }
-
     public static User getUserLogged() {
         return userLogged;
     }
