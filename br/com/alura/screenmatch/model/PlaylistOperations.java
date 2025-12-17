@@ -11,7 +11,6 @@ public class PlaylistOperations {
 
 
     public static void createPlaylist(User user, String playlistName)  {
-        FileOperations.createUserFolder(user.getUserName());
         try{
             if(FileOperations.generateFile(playlistName, user.getUserName())){
                 System.out.println("Playlist created");
@@ -25,6 +24,12 @@ public class PlaylistOperations {
     }
 
     public static void addMovieToPlaylist(String playlistName, String movieName, User user) throws FileNotFoundException, IOException {
+        Path fileName = Paths.get(SystemVariables.getFolderPath(),user.getUserName(),playlistName+".json");
+
+        if(!Files.exists(fileName)){
+            throw new FileNotFoundException("There is no playlist created");
+        }
+
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 .setPrettyPrinting()
@@ -32,12 +37,6 @@ public class PlaylistOperations {
 
         String json = SearchOmdbApi.searchTitle(movieName);
         OmdbTitle omdbTitle = gson.fromJson(json, OmdbTitle.class);
-
-        Path fileName = Paths.get(SystemVariables.getFolderPath(),user.getUserName(),playlistName+".json");
-
-        if(!Files.exists(fileName)){
-            throw new FileNotFoundException("There is no file created");
-        }
 
         JsonArray jsonArray;
 
@@ -50,10 +49,9 @@ public class PlaylistOperations {
         JsonObject jsonObject = gson.toJsonTree(omdbTitle).getAsJsonObject();
         jsonArray.add(jsonObject);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName.toFile()))){
-            bw.write(gson.toJson(jsonArray));
-        }
-
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileName.toFile()));
+        bw.write(gson.toJson(jsonArray));
+        bw.close();
 
     }
 

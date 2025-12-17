@@ -25,6 +25,8 @@ public final class FileOperations {
 
         if(Files.exists(filePath)){
             return false;
+        }else{
+            createUserFolder(userName);
         }
         Files.createFile(filePath);
         return true;
@@ -58,12 +60,13 @@ public final class FileOperations {
         JsonObject jsonObject = gson.toJsonTree(user).getAsJsonObject();
         jsonArray.add(jsonObject);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(SystemVariables.getUsersData().toFile()))){
-            bw.write(gson.toJson(jsonArray));
-        }
+        BufferedWriter bw = new BufferedWriter(new FileWriter(SystemVariables.getUsersData().toFile()));
+        bw.write(gson.toJson(jsonArray));
+        bw.close();
+
     }
 
-    public static void loginUser(String userName, String password)throws IOException{
+    public static boolean loginUser(String userName, String password)throws IOException{
         TypeToken<List<User>> userListType = new TypeToken<List<User>>() {};
 
         try(BufferedReader bf = new BufferedReader(new FileReader(SystemVariables.getUsersData().toFile()))){
@@ -71,16 +74,17 @@ public final class FileOperations {
 
             for(User user : users){
                 if(user.getUserName().equals(userName) && user.getPassword().equals(password)){
-                    System.out.println("User logged in");
                     user.setUserlogged(true);
                     Session.login(user);
                     FileWriter fileWriter = new FileWriter(SystemVariables.getUsersData().toFile());
                     gson.toJson(users,fileWriter);
                     fileWriter.close();
+                    return true;
                 }
             }
+            return false;
         }catch (FileNotFoundException e){
-            System.err.printf("There are no users created. " + e.getMessage());
+            throw new FileNotFoundException("There are no users created. ");
         }
     }
 
