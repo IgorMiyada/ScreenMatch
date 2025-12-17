@@ -4,6 +4,7 @@ import br.com.alura.screenmatch.excession.MovieNotFoundException;
 import br.com.alura.screenmatch.excession.PasswordException;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,7 +39,7 @@ public class Menu {
                     String password = sc.nextLine();
                     System.out.println("Confirm your password : ");
                     String confirmPassword = sc.nextLine();
-                    User user = new User(userName,email,password,confirmPassword);
+                    User user = new User(userName.trim(),email,password.trim(),confirmPassword.trim());
                     FileOperations.createUserFolder(user.getUserName());
                     FileOperations.saveUserData(user);
                     System.out.println("User Created");
@@ -48,7 +49,7 @@ public class Menu {
                     String loginUserName = sc.nextLine();
                     System.out.println("Enter the userPassword : ");
                     String loginPassword = sc.nextLine();
-                    if(FileOperations.loginUser(loginUserName,loginPassword)){
+                    if(FileOperations.loginUser(loginUserName.trim(),loginPassword.trim())){
                         System.out.println("Login successful");
                     }else{
                         System.out.println("User don't exist");
@@ -97,7 +98,9 @@ public class Menu {
                     System.out.println("Invalida option! Enter other number ");
                     break;
             }
-        }catch(PasswordException | IOException | MovieNotFoundException e){
+        }catch (InputMismatchException e){
+            System.err.println("Please, enter a number");
+        } catch(PasswordException | IOException | MovieNotFoundException e){
             System.err.println(e.getMessage());
         }
 

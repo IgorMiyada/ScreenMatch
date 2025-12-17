@@ -27,7 +27,7 @@ public class PlaylistOperations {
         Path fileName = Paths.get(SystemVariables.getFolderPath(),user.getUserName(),playlistName+".json");
 
         if(!Files.exists(fileName)){
-            throw new FileNotFoundException("There is no playlist created");
+            throw new FileNotFoundException("There is no playlist with this name");
         }
 
         Gson gson = new GsonBuilder()
