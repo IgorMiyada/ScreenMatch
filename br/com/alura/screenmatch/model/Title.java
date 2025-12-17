@@ -17,12 +17,12 @@ public class Title implements Comparable<Title>{
     }
 
     public Title(OmdbTitle omdbTitle){
-        this.name = omdbTitle.title();
-        if(omdbTitle.year() == null || omdbTitle.year().length()>4 ){
+        this.name = omdbTitle.Title();
+        if(omdbTitle.Year() == null || omdbTitle.Year().length()>4 ){
             throw new ErroDeConversaoDeAnoException("Erro ao tentar obter o ano. Campo ano contém mais de 4 caracteres");
         }
-        this.releasedYear = Integer.parseInt(omdbTitle.year());
-        this.runtimeInMinutes = Integer.parseInt(omdbTitle.runtime().substring(0,2));
+        this.releasedYear = Integer.parseInt(omdbTitle.Year());
+        this.runtimeInMinutes = Integer.parseInt(omdbTitle.Runtime().substring(0,2));
     }
 
     @Override
