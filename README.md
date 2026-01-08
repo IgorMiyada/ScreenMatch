@@ -20,13 +20,13 @@ Before you start it, you need will need it :
 
 1. Initializing the app, it will ask you to enter one of the available options : 
 
-    - 1.Create Account
-    - 2.Login
-    - 3.Change save local for playlists(It saves in the project directory by default)
+    - 1.Create an Account
+    - 2.Log in
+    - 3.Change the save location for playlists(They are saved in the project directory by default)
     - 4.Search for a movie
-    - 5.Register a movie list
+    - 5.Create a movie list
     - 6.Add a movie to a playlist
-    - 7.See a playlist
-    - 8.End application
+    - 7.View a playlist
+    - 8.Exit the application
 
 2. Choose one of the options and proceed providing the data asked to work properly
