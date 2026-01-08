@@ -18,14 +18,14 @@ public class Menu {
         return """
                 ######################
                 Select one of the options :
-                1.Create Account
-                2.Login
-                3.Change save local for playlists(It saves in the project directory by default)
+                1.Create an Account
+                2.Log in
+                3.Change the save location for playlists(They are saved in the project directory by default)
                 4.Search for a movie
-                5.Register a movie list
+                5.Create a movie playlist
                 6.Add a movie to a playlist
-                7.See a playlist
-                8.End application""";
+                7.View a playlist
+                8.Exit the application""";
     }
 
     public void opcoesMenu(int opcaoMenu){
@@ -34,7 +34,7 @@ public class Menu {
         try{
             switch (opcaoMenu){
                 case 1:
-                    System.out.println("Enter the user name : ");
+                    System.out.println("Enter the username : ");
                     String userName = sc.nextLine();
                     System.out.println("Enter your email : ");
                     String email = sc.nextLine();
@@ -45,21 +45,21 @@ public class Menu {
                     User user = new User(userName.trim(),email,password.trim(),confirmPassword.trim());
                     FileOperations.createUserFolder(user.getUserName());
                     FileOperations.saveUserData(user);
-                    System.out.println("User Created");
+                    System.out.println("User created.");
                     break;
                 case 2:
-                    System.out.println("Enter the user name : ");
+                    System.out.println("Enter your username : ");
                     String loginUserName = sc.nextLine();
-                    System.out.println("Enter the userPassword : ");
+                    System.out.println("Enter your password : ");
                     String loginPassword = sc.nextLine();
                     if(FileOperations.loginUser(loginUserName.trim(),loginPassword.trim())){
                         System.out.println("Login successful");
                     }else{
-                        System.out.println("User don't exist");
+                        System.out.println("User doesn't exist");
                     }
                     break;
                 case 3:
-                    System.out.println("Enter the folders path you want to save : ");
+                    System.out.println("Enter the folder path where you want to save playlists: ");
                     String folderPath = sc.nextLine();
                     SystemVariables.setFolderPath(folderPath);
                     break;
@@ -68,7 +68,7 @@ public class Menu {
                             .setPrettyPrinting()
                             .create();
 
-                    System.out.println("Enter the wished movie: ");
+                    System.out.println("Enter the movie name : ");
                     String titleName = sc.nextLine();
                     String show = SearchOmdbApi.searchTitle(titleName);
                     JsonElement jsonElement = JsonParser.parseString(show);
@@ -76,7 +76,7 @@ public class Menu {
                     break;
                 case 5:
                     if(Session.isUserLogged()){
-                        System.out.println("Insert the playlist name : ");
+                        System.out.println("Enter the playlist name : ");
                         String playlistToBeCreated = sc.nextLine();
                         PlaylistOperations.createPlaylist(Session.getUserLogged(),playlistToBeCreated);
                     }
@@ -102,9 +102,9 @@ public class Menu {
                     }
                     break;
                 case 8:
-                    System.out.println("End application");break;
+                    System.out.println("Ending application");break;
                 default :
-                    System.out.println("Invalid option! Enter other number ");
+                    System.out.println("Invalid option! Please enter another number ");
                     break;
             }
         } catch(PasswordException | IOException | MovieNotFoundException e){
